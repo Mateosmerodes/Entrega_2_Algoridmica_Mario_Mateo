@@ -1,0 +1,69 @@
+Documentación de la Práctica: Estructuras de Datos Lineales
+
+A continuación se detalla la implementación, decisiones de diseño y análisis de complejidad de los ejercicios requeridos para esta práctica.
+
+### Ejercicio 1: Conversión y Evaluación de Expresiones Prefijas (Python)
+
+* **Estructura de Datos:** Pilas (TAD Pila) mediante listas nativas de Python.
+* **Descripción de la Solución:** Se implementaron dos algoritmos principales. El primero convierte una expresión infija a prefija, para lo cual se invierte la cadena original, se procesa intercambiando el papel de los paréntesis (apertura por cierre) y se aplica la lógica clásica de infija-a-sufija basada en la precedencia de operadores. El resultado se vuelve a invertir. El segundo algoritmo evalúa dicha expresión prefija leyendo los *tokens* de derecha a izquierda, apilando operandos y, al encontrar un operador, extrayendo los dos últimos elementos para aplicar la aritmética correspondiente.
+* **Consideraciones:** El programa está adaptado para manejar números de más de una cifra y decimales (`float`), procesando la cadena separada por espacios para distinguir correctamente los *tokens*.
+
+### Ejercicio 4: Concatenación de Colas (Python)
+
+* **Estructura de Datos:** Cola (TAD Cola) basada en listas.
+* **Descripción de la Solución:** Se añadió un método `concatenar(otra_cola)` a la clase original. La lógica consiste en extraer secuencialmente los elementos de la primera cola (usando el método `avanzar`) e introducirlos en una nueva cola resultante, repitiendo después el proceso con la segunda cola.
+* **Consideraciones:** Para no destruir las colas originales al extraer sus elementos, se utilizaron estructuras temporales que permiten reconstruir las colas iniciales una vez copiados sus datos, respetando estrictamente el principio FIFO.
+
+### Ejercicio 6: TAD Impresión usando Colas de Prioridad (Python)
+
+* **Estructura de Datos:** Cola de Prioridad basada en una lista desordenada.
+* **Descripción de la Solución:** Se creó una clase `Tarea` que encapsula el identificador, páginas y prioridad. La cola almacena estos objetos insertándolos directamente al final de la lista. La lógica de prioridad recae en el método de extracción (`extrae`), que recorre toda la lista para localizar el índice del elemento con el valor de prioridad más alto y lo extrae.
+* **Complejidad:** La inserción tiene un coste temporal de $O(1)$, mientras que la extracción requiere recorrer la lista entera, resultando en un coste de $O(n)$.
+
+### Ejercicio 8: Colas de Prioridad con Listas Enlazadas Ordenadas (C++)
+
+* **Estructura de Datos:** Lista Enlazada Simple Ordenada.
+* **Descripción de la Solución:** A diferencia del ejercicio 6, aquí la prioridad se gestiona en la inserción (`enqueue`). Al añadir un nuevo nodo, se recorre la lista enlazada para encontrar su posición correcta de modo que los elementos queden ordenados de mayor a menor prioridad. La extracción (`dequeue`) simplemente saca el nodo apuntado por la `cabeza` de la lista.
+* **Complejidad:** Extraer el elemento de mayor prioridad es $O(1)$. Insertar requiere recorrer la lista hasta encontrar el hueco adecuado, lo que en el peor de los casos supone un tiempo $O(n)$.
+
+### Ejercicio 9: Enriquecimiento del TAD Conjunto (Python)
+
+* **Estructura de Datos:** TAD Conjunto basado en listas (sin elementos duplicados).
+* **Descripción de la Solución:** Se implementó la lógica matemática de conjuntos.
+* **Unión:** Crea un conjunto nuevo insertando los elementos de ambos conjuntos (el método `inserta` previene duplicados).
+* **Intersección:** Recorre el primer conjunto y añade al resultado solo los elementos que también existan en el segundo.
+* **Diferencia:** Añade al resultado los elementos del primer conjunto que *no* estén en el segundo.
+* **Elimina e Incluye:** Realizan operaciones de borrado seguro y verificación de subconjuntos mediante comprobaciones de pertenencia.
+
+
+
+### Ejercicio 10: Método `anexar` para Lista No Ordenada (Python)
+
+* **Estructura de Datos:** Lista Enlazada Simple.
+* **Descripción de la Solución:** Se desarrolló el método `anexar(item)` para colocar un nuevo nodo al final de la colección. Puesto que la estructura base solo conserva una referencia a la `cabeza`, el algoritmo requiere un puntero auxiliar que viaje nodo por nodo hasta alcanzar aquel cuyo atributo `siguiente` sea nulo, conectando ahí el nuevo nodo.
+* **Complejidad:** Dado que es obligatorio iterar por toda la lista para alcanzar el final, la complejidad temporal de este método es $O(n)$.
+
+### Ejercicio 14: Optimización del tamaño en Lista No Ordenada (Python)
+
+* **Estructura de Datos:** Lista Enlazada Simple con metadatos.
+* **Descripción de la Solución:** Como alternativa a recorrer toda la lista para contar sus nodos, se introdujo un atributo privado `_tamano` en el constructor de la clase. Este contador se incrementa en $1$ cada vez que se invoca al método `agregar` y se decrementa en $1$ si el método `borrar` tiene éxito.
+* **Complejidad:** Esta estrategia optimiza drásticamente el método `tamano()`, pasando de una complejidad lineal de $O(n)$ a una complejidad constante de $O(1)$, a cambio de un mínimo incremento en el uso de memoria.
+
+### Ejercicio 15: Robot de almacén y Lista Enlazada Circular (C++)
+
+* **Estructura de Datos:** Lista Enlazada Circular.
+* **Descripción de la Solución:** Se modeló el circuito del robot implementando nodos que almacenan coordenadas espaciales ($X,Y,Z$). La particularidad de la clase `CircularLinkedList` es que el método de inserción garantiza que el puntero `next` del último nodo añadido siempre regrese a la `head`. Esto permite al robot iterar por las posiciones en un bucle cerrado continuo, alternando lógicamente entre sus acciones `Coger_pieza` y `Dejar_pieza`.
+
+### Ejercicio 16: Cola de Prioridad con Lista Doblemente Enlazada (C++)
+
+* **Estructura de Datos:** Lista Doblemente Enlazada.
+* **Descripción de la Solución:** Cada nodo contiene una clave, una prioridad y dos punteros (`next` y `prev`). La inserción mantiene el orden descendente de prioridad. La dificultad principal resuelta en este diseño fue la gestión de los 4 punteros implicados al insertar un elemento en medio de la lista, previendo además casos extremos como la inserción en la cabeza o al final (`tail`). Extraer el elemento de mayor prioridad implica únicamente desligar el nodo `head`.
+
+### Ejercicio 18: Implementación del TAD Cola sobre Listas Enlazadas (Python)
+
+* **Estructura de Datos:** TAD Cola usando Lista Enlazada Simple.
+* **Descripción de la Solución:** Para asegurar que las operaciones de la cola cumplan con el estándar de rendimiento esperado, la clase almacena dos referencias: `cabeza` (frente de la cola) y `cola_ultimo` (final de la cola).
+* Al método `agregar` se le asocia el puntero `cola_ultimo` para insertar en tiempo constante.
+* Al método `avanzar` se le asocia el puntero `cabeza` para extraer en tiempo constante.
+
+
